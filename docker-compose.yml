@@ -10,7 +10,7 @@ services:
       - "993:993"
       - "587:587"
     volumes:
-      - ./mail-data/:/var/mail/
+      - mail-data:/var/mail/
       - mail-state:/var/mail-state/
       - mail-config:/tmp/docker-mailserver/
       - /etc/localtime:/etc/localtime:ro
@@ -20,10 +20,13 @@ services:
       - ENABLE_FAIL2BAN=1
       - ONE_DIR=1
       - OVERRIDE_HOSTNAME=mail.vavilov.tj
+      - ENABLE_POSTGREY=0
+      - SPOOF_PROTECTION=0
+      - ENABLE_SPAMASSASSIN_POSTFIX=0
     restart: always
 
   webmail:
-    image: roundcube/roundcubemail:latest
+    image: roundcube/roundcubemail:1.7.2-apache
     container_name: roundcube
     restart: always
     ports:
@@ -35,5 +38,6 @@ services:
       - mailserver
 
 volumes:
+  mail-data:
   mail-state:
   mail-config:
