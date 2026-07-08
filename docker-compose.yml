@@ -5,14 +5,12 @@ services:
     hostname: mail
     domainname: vavilov.tj
     ports:
-      - "25:25"       # SMTP
-      - "143:143"     # IMAP
-      - "993:993"     # IMAPS
-      - "587:587"     # SMTP Submission
+      - "25:25"
+      - "143:143"
+      - "993:993"
+      - "587:587"
     volumes:
-      # Папку с письмами оставляем локальной, чтобы вы могли их читать в VS Code
       - ./mail-data/:/var/mail/
-      # Служебные папки состояния и настроек переносим в именованные тома Docker (решает ошибку прав Windows)
       - mail-state:/var/mail-state/
       - mail-config:/tmp/docker-mailserver/
       - /etc/localtime:/etc/localtime:ro
@@ -29,14 +27,13 @@ services:
     container_name: roundcube
     restart: always
     ports:
-      - "8080:80"     # http://localhost:8080
+      - "8080:80"
     environment:
       - ROUNDCUBEMAIL_DEFAULT_HOST=mailserver
       - ROUNDCUBEMAIL_SMTP_SERVER=mailserver
     depends_on:
       - mailserver
 
-# Объявляем изолированные тома для стабильной работы под Windows
 volumes:
   mail-state:
   mail-config:
