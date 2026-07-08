@@ -8,6 +8,7 @@
 ```
     docker compose up -d
     docker exec -it mailserver setup email add test@mail.mk "Пароль"
+    docker compose restart mailserver
 ```
 6) В браузере переходим по ссылке http://localhost:8080
 
